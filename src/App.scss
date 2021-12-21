@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+$color:#026aa7;
+$color2:#045585;
+$color_board:rgb(233, 231, 231);
+$text_color:black;
+$column_header_height:35px;
+$column_footer_height:35px;
+$boder_radius:5px;
+$padding:10px;
+*{
+    margin: 0;
+    padding: 0
+}
+body{
+    font-size: 14px;
+}
+.App{
+    font-family: sans-serif;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 40px 50px 1fr;
+    background-color: $color;
+}

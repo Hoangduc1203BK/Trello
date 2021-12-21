@@ -1,0 +1,10 @@
+$color:#026aa7;
+$padding:10px;
+.nav{
+    padding-left: $padding;
+    display: flex;
+    align-items: center;
+    &.board{
+        background-color:$color;
+    }
+}

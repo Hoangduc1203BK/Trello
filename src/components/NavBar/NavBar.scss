@@ -1,0 +1,11 @@
+$padding:10px;
+$color2:#045585;
+.nav{
+    padding-left: $padding;
+    display: flex;
+    align-items: center;
+    &.app{
+        background-color:$color2;
+        font-size:1.5rem;
+    }
+}
