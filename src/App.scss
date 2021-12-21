@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 $color:#026aa7;
 $color2:#045585;
@@ -20,4 +21,18 @@ body{
     display: grid;
     grid-template-rows: 40px 50px 1fr;
     background-color: $color;
+    textarea:focus,
+      textarea.form-control:focus,
+      input.form-control:focus,
+      input[type="text"]:focus,
+      input[type="password"]:focus,
+      input[type="email"]:focus,
+      input[type="number"]:focus,
+      [type="text"].form-control:focus,
+      [type="password"].form-control:focus,
+      [type="email"].form-control:focus,
+      [type="tel"].form-control:focus,
+      [contenteditable].form-control:focus {
+        box-shadow: none;
+      }
 }
