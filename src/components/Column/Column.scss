@@ -1,7 +1,8 @@
 $color:#026aa7;
 $color2:#045585;
 $color_board:rgb(233, 231, 231);
-$background_column_color:#b1adad;
+$background_scrollbar:#b1adad;
+$background_column_color:#e9e7e7;
 $text_color:black;
 $column_header_height:35px;
 $column_footer_height:35px;
@@ -32,16 +33,36 @@ $padding:10px;
         color:$text_color;
      }
      header.column-drag-handle{
-         padding-left:35px;
+         padding:2px 5px 0px 15px;
          height:$column_header_height;
          line-height:$column_header_height;
          font-size: 1.2rem;
          font-weight: bold;
          border-top-left-radius: $boder_radius;
          border-top-right-radius: $boder_radius;
+         position: relative;
          cursor: pointer;
+         display: flex;
+         .title_column{
+             flex:95%; 
+         }
+         .dropDown_column{
+             flex:5%;
+             button.dropdown-btn{
+                 background-color:$background_column_color;
+                 border-color: $background_column_color;
+                 color:rgba(0,0,0,0.4);
+                 &:hover{
+                     background-color: darken($background_column_color,10)                     
+                 }
+             }
+             .dropdown-menu{
+                 font-size: 14px;
+             }
+         }
      }
      ul{
+         padding-top:8px;
          list-style: none;
          margin:0;
          max-height: 410px;
@@ -53,7 +74,7 @@ $padding:10px;
              width:8px;
          }
          &::-webkit-scrollbar-thumb{
-             background-color:$background_column_color ;
+             background-color:$background_scrollbar ;
              border-radius:8px
          }
          .card-ghost {
@@ -82,11 +103,16 @@ $padding:10px;
              box-shadow: 0 1px 1px rgba(0,0,0,0.2);
              border-radius:$boder_radius ;
              img{
+                 margin-left: 5px;
+                 margin-right: 5px;
                  display: block;
-                 width: 250px;
+                 width: 230px;
                  height:250px;
                  margin-bottom: 6px;
                  border-radius:3px;
+             }
+             li.img{
+                 align-items: center;
              }
          }
      }
