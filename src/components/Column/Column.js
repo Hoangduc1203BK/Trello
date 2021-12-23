@@ -1,7 +1,8 @@
 import React,{useState,useRef,useEffect,useCallback} from "react";
 import { Container, Draggable } from "react-smooth-dnd";
-import {Dropdown, Form} from 'react-bootstrap'
+import {Dropdown, Form,Button} from 'react-bootstrap'
 import { mapOder } from "../../lib/lib";
+import {cloneDeep} from 'lodash';
 import ModalComponent from "../Common/Modal"
 import { MODAL_CONFIRM,MODAL_CLOSE } from "../../lib/constance/const";
 import {getTitle, selectAllText} from "../../lib/handleInput"
@@ -11,6 +12,9 @@ function Column(props) {
   const cards = mapOder(column.cards, column.cardOrder, "id");
   const [openModal,setOpenModal] =useState(false)
   const [title,setTitle] =useState('') 
+  const [newTitleCard,setNewTitleCard] =useState()
+  const [openAdd,setOpen]=useState(false)
+  const addCardRef=useRef()
   useEffect(()=>{
     setTitle(column.title)
   },[column.title])
@@ -31,6 +35,33 @@ function Column(props) {
   const handleBlur=()=>{
     const newColumn={...column, title:title}
     onUpdateColumn(newColumn)
+  }
+
+  //Add Card
+  const openAddCard=()=>{
+    setOpen(!openAdd)
+  }
+  const handleSubmit=()=>{
+    if(!newTitleCard){
+      addCardRef.current.focus();
+      return;
+    }
+    const newCard={
+      id:Math.random().toString(36).substr(2,5),
+      boardId:column.boardId,
+      columnId:column.id,
+      title:newTitleCard,
+      image:null
+    }
+    const cloneListCard=cloneDeep(column)
+    cloneListCard.cards.push(newCard)
+    cloneListCard.cardOrder.push(newCard.id)
+    onUpdateColumn(cloneListCard)
+    setNewTitleCard('')
+    openAddCard(!openAdd)
+  }
+  const handleChangeInput=(e)=>{
+    setNewTitleCard(e.target.value)
   }
   return (
     <div className="column">
@@ -53,7 +84,7 @@ function Column(props) {
           <Dropdown>
             <Dropdown.Toggle className="dropdown-btn" id="dropdown-basic"/>
             <Dropdown.Menu className="dropdown-menu">
-              <Dropdown.Item href="#/action-1">Add Card...</Dropdown.Item>
+              <Dropdown.Item href="#/action-1" onClick={openAddCard}>Add Card...</Dropdown.Item>
               <Dropdown.Item href="#/action-2" onClick={()=>open()}>Remove Card...</Dropdown.Item>
               <Dropdown.Item href="#/action-3">Move all cards in this column</Dropdown.Item>
               <Dropdown.Item href="#/action-4">Archive all cards in this column</Dropdown.Item>
@@ -101,10 +132,35 @@ function Column(props) {
         </Container>
       </ul>
       <footer>
-        <div className="footer_action">
+        {openAdd && (
+          <div className="enter-add-new-card">
+          <Form.Control
+                ref={addCardRef}
+                className="input-add-new-card text_area"
+                size="sm"
+                as="textarea"
+                rows='3'
+                placeholder="Add new card"
+                value={newTitleCard}
+                onChange={handleChangeInput}
+                onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+              />
+              <Button
+                className="enter_button"
+                variant="success"
+                onClick={handleSubmit}
+              >
+                Success
+              </Button>
+              <i onClick={openAddCard} className="fa fa-times icon" />
+              </div>
+        )}
+         {!openAdd && (
+          <div className="footer_action"  onClick={openAddCard}>
           <i className="fa fa-plus icon" />
           Add another card
         </div>
+         )}
       </footer>
       <ModalComponent 
       show={openModal}
