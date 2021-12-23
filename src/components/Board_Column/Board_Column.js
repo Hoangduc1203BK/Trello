@@ -107,6 +107,7 @@ function Board_Column() {
     setColumns(newColumns);
     setBoard(newBoard);
   };
+
   return (
     <div className="Board_column">
       <Container

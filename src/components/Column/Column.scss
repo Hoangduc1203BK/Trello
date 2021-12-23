@@ -118,7 +118,7 @@ $padding:10px;
      }
      footer{
         padding-left:20px;
-        height:$column_footer_height;
+        height:100%;
         line-height:$column_footer_height;
         font-size: 15px;
         border-bottom-left-radius: $boder_radius;
@@ -135,6 +135,34 @@ $padding:10px;
             font-size:14px;
             margin-right:4px;
         }
+        .enter-add-new-card {
+            width: 290px;
+            max-width: 290px;
+            background-color: #e9e7e7;
+            margin-left: -20px;
+            border-radius: $boder_radius;
+            padding: 5px 20px;
+            line-height: 40px;
+            .input-add-new-card {
+              margin-bottom: 5px;
+            }
+            .text_area{
+                min-height:30px;
+                max-height:120px;
+            }
+            .icon{
+                margin-left: 10px;
+                font-size:20px;
+                color:red;
+                &:hover{
+                    cursor: pointer;
+                    color: darken(red,10);
+                }
+            }
+            .enter_button{
+              width:100px;
+            }
+          }
      }
     }
 }
