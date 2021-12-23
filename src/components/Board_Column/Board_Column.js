@@ -16,7 +16,7 @@ function Board_Column() {
   const [board, setBoard] = useState({});
   const [columns, setColumns] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
-  const [newTileColumns, setNewTileColumns] = useState("");
+  const [newTileColumns, setNewTitleColumns] = useState("");
   const inputRef = useRef();
   useEffect(() => {
     const boardDB = initialValue.boards.find(
@@ -38,7 +38,10 @@ function Board_Column() {
       inputRef.current.focus();
     }
   }, [openAdd]);
-  const handleChangeInput=useCallback((e)=>setNewTileColumns(e.target.value),[])
+  const handleChangeInput = useCallback(
+    (e) => setNewTitleColumns(e.target.value),
+    []
+  );
   if (isEmpty(board)) {
     return (
       <div className="error" style={{ paddingLeft: 10, color: "white" }}>
@@ -47,11 +50,11 @@ function Board_Column() {
     );
   }
 
-  const onColumnDrop = function (dropResult) {
+  const onColumnDrop =  (dropResult)=> {
     let newColumns = [...columns];
     newColumns = applyDrag(newColumns, dropResult);
     let newBoard = { ...board };
-    newBoard.columnOrder = newColumns.map((el) => el.id);
+    newBoard.columnOrder = newColumns.map(el => el.id);
     newBoard.columns = newColumns;
     setColumns(newColumns);
     setBoard(newBoard);
@@ -66,30 +69,43 @@ function Board_Column() {
     }
   };
   const openAddColumn = () => {
-    // newColumnRef.current.style.display = 'block'
     setOpenAdd(!openAdd);
   };
   const handleSubmit = () => {
-    if(!newTileColumns){
+    if (!newTileColumns) {
       inputRef.current.focus();
-      return
+      return;
     }
-    const newColumn={
-      id:Math.random().toString(36).substr(2,5),
-      boardId:board.id,
-      title:newTileColumns.trim(),
-      cardOrder:[],
-      cards:[]
-    }
-    const cloneColumn=[...columns]
-    cloneColumn.push(newColumn)
+    const newColumn = {
+      id: Math.random().toString(36).substr(2, 5),
+      boardId: board.id,
+      title: newTileColumns.trim(),
+      cardOrder: [],
+      cards: [],
+    };
+    const cloneColumn = [...columns];
+    cloneColumn.push(newColumn);
     let newBoard = { ...board };
     newBoard.columnOrder = cloneColumn.map((el) => el.id);
     newBoard.columns = cloneColumn;
     setColumns(cloneColumn);
     setBoard(newBoard);
-    setNewTileColumns('')
-    setOpenAdd(false)
+    setNewTitleColumns("");
+    setOpenAdd(false);
+  };
+  const onUpdate = (data) => {
+    const newColumns = [...columns]
+    const idUpdate=newColumns.findIndex(c=>c.id==data.id)
+    if(data.delete){
+      newColumns.splice(idUpdate,1)
+    }else{
+      newColumns.splice(idUpdate,1,data)
+    }
+    let newBoard = { ...board };
+    newBoard.columnOrder = newColumns.map(el => el.id);
+    newBoard.columns = newColumns;
+    setColumns(newColumns);
+    setBoard(newBoard);
   };
   return (
     <div className="Board_column">
@@ -106,7 +122,11 @@ function Board_Column() {
       >
         {columns.map((column, index) => (
           <Draggable key={index}>
-            <Column column={column} onCardDrop={onCardDrop} />
+            <Column
+              column={column}
+              onCardDrop={onCardDrop}
+              onUpdateColumn={onUpdate}
+            />
           </Draggable>
         ))}
       </Container>
@@ -129,7 +149,7 @@ function Board_Column() {
                 placeholder="Add new column"
                 value={newTileColumns}
                 onChange={handleChangeInput}
-                onKeyDown={e=> e.key==='Enter' && handleSubmit()}
+                onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
               />
               <Button
                 className="enter_button"

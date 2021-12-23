@@ -33,6 +33,20 @@ body{
       [type="email"].form-control:focus,
       [type="tel"].form-control:focus,
       [contenteditable].form-control:focus {
-        box-shadow: none;
+        box-shadow: none
+      }
+      .btn:focus, .btn:active{
+        box-shadow: none !important;
+        outline: none !important;
+      }
+      .header-editor{
+        background-color:inherit;
+        border:none;
+        font-weight: inherit;
+        font-size: inherit;
+        &:focus{
+          background-color:white;
+          border: 1px solid #0dcaf0;
+        }
       }
 }
